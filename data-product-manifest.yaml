@@ -26,13 +26,7 @@ inputPorts:
       incremetal: true
       sourceSchemaUrn: urn:dv:schema:9d4716d4
       projectSchemaUrn: urn:dv:schema:9d4716d6
-      filter: ""
       fileFormat: csv
-      delimiter: ","
-      header: true
-      projection:
-        - legal_entity
-        - store_group_name
 stateManagement:
   alias: maf_pay_tx
   refreshInterval: 45 19 1-10 1-5 1-3
@@ -40,11 +34,5 @@ stateManagement:
   productStoreState:
     logicalSchemaUrn: urn:dv:schema:e6161030-4c7f-4e8f-8508-f01e6547b00e
     retentionVersions: "10"
-  updateStrategyOptions:
-    - entityRef: urn:dv:datasource:6d4714c3
-      uniqueKeyColumns:
-        - nothing
-      changeTrackColumns:
-        - nothing
 transformation:
   sql: select legal_entity, store_group_name from maf_pay_tx
