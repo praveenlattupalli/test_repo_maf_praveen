@@ -1,76 +1,38 @@
 ---
 version: 0.0.1
 discoveryPort:
-  name: Testing for SDC2 method on Byte ETL-Run 2
-  description: Creating the base table
-  category: customer
-  image: http://google.com
-  autofillUserinfo: true
-  tags:
-    - Madrid
-    - House Rental
-  extra: {}
+  name: Verify Update time functionality
+  description: Verify the updte time functionality
+  category: customer
+  image: http://google.com
+  autofillUserinfo: true
+  tags: []
+  extra: {}
 inputPorts:
-  - alias: Test0001_input_port
-    description: string
-    tags: []
-    extra: {}
-    syncType: pull
-    type: s3
-    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
-    entityId:
-      alias: Test0001
-      createEntity: true
-      entityName: test_scd21.csv
-      type: s3-bucket
-      entityPath: s3://dataverse-byte/sample-data/inputData/test_scd21.csv
-      entityFilterPatternMatch: "*.csv"
-      sourceSchemaUrn: urn:dv:schema:9d4716d4
-      projectSchemaUrn: urn:dv:schema:9d4716d6
-      fileFormat: csv
-      delimiter: ","
-      filter: ""
-      processingTimeColumn:
-        - created_date
-      actualTimeColumn:
-        - created_date
-      projection:
-        - id
-        - name
-        - marks
-        - modified
+  - alias: s3_maf_pay_tx
+    description: Maf pay transation test data S3 bucket
+    tags: []
+    extra: {}
+    syncType: pull
+    type: s3
+    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
+    entityId:
+      alias: maf_pay_tx
+      createEntity: true
+      type: s3-bucket
+      entityPath: "s3a://dp-input-bucket/mpay-tx"
+      entityFilterPatternMatch: "*.csv"
+      incrematalFetchNamePattern: "MAFPay_Transactions_#tansationDate#_*"
+      incremetal: true
+      sourceSchemaUrn: urn:dv:schema:9d4716d4
+      projectSchemaUrn: urn:dv:schema:9d4716d6
+      fileFormat: csv
 stateManagement:
-  alias: Test0001
-  refreshInterval: 30 10 * * 1-5
-  updateStrategy: SCD2
-  productStoreState:
-    logicalSchema:
-      type: object
-      properties:
-        id:
-          type: number
-          description: ID of the property
-        name:
-          type: String
-        marks:
-          type: number
-        modified:
-          type: datetime
-          description: To store the creation date
-      required:
-        - id
-    retentionVersions: "10"
-  updateStrategyOptions:
-    - entityRef: urn:dv:datasource:6d4714c3
-      uniqueKeyColumns:
-        - id
-      changeTrackColumns:
-        - modified
+  alias: maf_pay_tx
+  refreshInterval: 45 19 1-10 1-5 1-3
+  updateStrategy: append
+  productStoreState:
+    logicalSchemaUrn: urn:dv:schema:e6161030-4c7f-4e8f-8508-f01e6547b00e
+    retentionVersions: "10"
 transformation:
-  sql: SELECT * FROM Test0001
-outputPort:
-  channels:
-    - channelType: REST-API
-      queryType: SQL
-    - channelType: JDBC
-      queryType: SQL
+  sql: select legal_entity, store_group_name from maf_pay_tx
