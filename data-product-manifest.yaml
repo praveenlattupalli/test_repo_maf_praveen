@@ -1,16 +1,17 @@
+---
 version: 0.0.1
 discoveryPort:
-  name: Testing for SDC2 method on Byte ETL-Run 2
-  description: Creating the base table
+  name: logical schema urn - webhooks
+  description: The DP to verify the overwrite strategy
   category: customer
-  image: http://google.com
+  image: http://www.google.com
   autofillUserinfo: true
   tags:
     - Madrid
     - House Rental
   extra: {}
 inputPorts:
-  - alias: Test0001_input_port
+  - alias: usersS3_input_port
     description: string
     tags: []
     extra: {}
@@ -55,6 +56,8 @@ stateManagement:
         createdDate:
           type: datetime
           description: To store the creation date
+        expiry_date:
+          type: datetime
       required:
         - legal_entity
         - store_name
