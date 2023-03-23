@@ -1,76 +1,76 @@
 ---
 version: 0.0.1
 discoveryPort:
-  name: Testing for SDC2 method on Byte ETL-Run 2
-  description: Creating the base table
-  category: customer
-  image: http://google.com
-  autofillUserinfo: true
-  tags:
-    - Madrid
-    - House Rental
-  extra: {}
+  name: Testing for SDC2 method on Byte ETL-Run 2
+  description: Creating the base table
+  category: customer
+  image: http://google.com
+  autofillUserinfo: true
+  tags:
+    - Madrid
+    - House Rental
+  extra: {}
 inputPorts:
-  - alias: Test0001_input_port
-    description: string
-    tags: []
-    extra: {}
-    syncType: pull
-    type: s3
-    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
-    entityId:
-      alias: Test0001
-      createEntity: true
-      entityName: test_scd21.csv
-      type: s3-bucket
-      entityPath: s3://dataverse-byte/sample-data/inputData/test_scd21.csv
-      entityFilterPatternMatch: "*.csv"
-      sourceSchemaUrn: urn:dv:schema:9d4716d4
-      projectSchemaUrn: urn:dv:schema:9d4716d6
-      fileFormat: csv
-      delimiter: ","
-      filter: ""
-      processingTimeColumn:
-        - created_date
-      actualTimeColumn:
-        - created_date
-      projection:
-        - id
-        - name
-        - marks
-        - modified
+  - alias: Test0001_input_port
+    description: string
+    tags: []
+    extra: {}
+    syncType: pull
+    type: s3
+    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
+    entityId:
+      alias: Test0001
+      createEntity: true
+      entityName: test_scd21.csv
+      type: s3-bucket
+      entityPath: s3://dataverse-byte/sample-data/inputData/test_scd21.csv
+      entityFilterPatternMatch: "*.csv"
+      sourceSchemaUrn: urn:dv:schema:9d4716d4
+      projectSchemaUrn: urn:dv:schema:9d4716d6
+      fileFormat: csv
+      delimiter: ","
+      filter: ""
+      processingTimeColumn:
+        - created_date
+      actualTimeColumn:
+        - created_date
+      projection:
+        - id
+        - name
+        - marks
+        - modified
 stateManagement:
-  alias: Test0001
-  refreshInterval: 30 10 * * 1-5
-  updateStrategy: SCD2
-  productStoreState:
-    logicalSchema:
-      type: object
-      properties:
-        id:
-          type: number
-          description: ID of the property
-        name:
-          type: String
-        marks:
-          type: number
-        modified:
-          type: datetime
-          description: To store the creation date
-      required:
-        - id
-    retentionVersions: "10"
-  updateStrategyOptions:
-    - entityRef: urn:dv:datasource:6d4714c3
-      uniqueKeyColumns:
-        - id
-      changeTrackColumns:
-        - modified
+  alias: Test0001
+  refreshInterval: 30 10 * * 1-5
+  updateStrategy: SCD2
+  productStoreState:
+    logicalSchema:
+      type: object
+      properties:
+        id:
+          type: number
+          description: ID of the property
+        name:
+          type: String
+        marks:
+          type: number
+        modified:
+          type: datetime
+          description: To store the creation date
+      required:
+        - id
+    retentionVersions: "10"
+  updateStrategyOptions:
+    - entityRef: urn:dv:datasource:6d4714c3
+      uniqueKeyColumns:
+        - id
+      changeTrackColumns:
+        - modified
 transformation:
-  sql: SELECT * FROM Test0001
+  sql: SELECT * FROM Test0001
 outputPort:
-  channels:
-    - channelType: REST-API
-      queryType: SQL
-    - channelType: JDBC
-      queryType: SQL
+  channels:
+    - channelType: REST-API
+      queryType: SQL
+    - channelType: JDBC
+      queryType: SQL
