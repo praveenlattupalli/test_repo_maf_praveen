@@ -1,7 +1,7 @@
 ---
 version: 0.0.1
 discoveryPort:
-  name: Car prices - multiple transformation references
+  name: Car prices - multiple transformation references_1
   description: Average car price in barcelona references
   category: customer
   image: http://google.com
