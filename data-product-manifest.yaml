@@ -1,7 +1,7 @@
 ---
 version: 0.0.1
 discoveryPort:
-  name: Verify Update time functionality
+  name: Verify Update time functionality_1
   description: Verify the updte time functionality
   category: customer
   image: http://google.com
