@@ -1,38 +1,66 @@
 ---
 version: 0.0.1
 discoveryPort:
-  name: Verify Update time functionality_15
-  description: Verify the updte time functionality
+  name: Test logical schema (main)
+  description: The data product provides average house rental rates in Madrid by house
+    type (Pisos, Aticos, Duplex, etc)
   category: customer
   image: http://google.com
   autofillUserinfo: true
-  tags: []
+  tags:
+    - Madrid
+    - House Rental
   extra: {}
 inputPorts:
-  - alias: s3_maf_pay_tx
-    description: Maf pay transation test data S3 bucket
+  - alias: usersS3_input_port
+    description: string
     tags: []
     extra: {}
     syncType: pull
     type: s3
-    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
+    sourceUrn: urn:dv:datasource:a7ea4b35-4537-4a77-b189-949a3d723ed9
     entityId:
-      alias: maf_pay_tx
+      alias: usersS3
       createEntity: true
+      entityName: houses_Madrid.parquet
       type: s3-bucket
-      entityPath: "s3a://dp-input-bucket/mpay-tx"
-      entityFilterPatternMatch: "*.csv"
-      incrematalFetchNamePattern: "MAFPay_Transactions_#tansationDate#_*"
-      incremetal: true
+      entityPath: s3a://dp-input-bucket/property_rental/houses_Madrid.parquet
+      entityFilterPatternMatch: "*"
       sourceSchemaUrn: urn:dv:schema:9d4716d4
       projectSchemaUrn: urn:dv:schema:9d4716d6
-      fileFormat: csv
+      fileFormat: parquet
+      delimiter: "|"
+      filter: subtitle != ''
+      processingTimeColumn:
+        - processing_time
+      actualTimeColumn:
+        - processing_time
+      projection:
+        - id
+        - title
+        - subtitle
+        - sq_mt_built
+        - sq_mt_useful
+        - rent_price
+        - rent_price_by_area
+        - buy_price
+        - buy_price_by_area
 stateManagement:
-  alias: maf_pay_tx
-  refreshInterval: 45 19 1-10 1-5 1-3
-  updateStrategy: append
+  alias: users_count_by_gender
+  refreshInterval: 00 10 * * *
+  updateStrategy: SCD-2
   productStoreState:
-    logicalSchemaUrn: urn:dv:schema:e6161030-4c7f-4e8f-8508-f01e6547b00e
+    logicalSchemaUrn: urn:dv:schema:263deedb-916b-40f2-9740-6ee02ce9b8b9
     retentionVersions: "10"
+  updateStrategyOptions:
+    - entityRef: ${urn:dv:datasource:6d4714c3}:1
+      uniqueKeyColumns:
+        - customer_id
+      changeTrackColumns:
+        - cust_title_desc
+        - cust_birthday
+        - cust_nationality
 transformation:
-  sql: select legal_entity, store_group_name from maf_pay_tx
+  sql: SELECT AVG(rent_price), house_type_id
+    FROM usersS3
+    GROUP BY house_type_id
