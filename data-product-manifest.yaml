@@ -1,38 +1,84 @@
 ---
-version: 0.0.1
+version: 0.1.0
+alias: TestMultiTransform_01_June_14
 discoveryPort:
-  name: Verify Update time functionality_15
-  description: Verify the updte time functionality
-  category: customer
-  image: http://google.com
-  autofillUserinfo: true
-  tags: []
-  extra: {}
+  name: MultiTransformation Scenario 14 June Test 1
+  shortDescription: Test search functionality
+  longDescription: search maximum characters for long description
+  tags:
+    - Dataverse
+    - Finance
+  domain: ['Finance']
+  function: ['Forecast']
+  regulatoryFields:
+    dataPrivacy: public
+    customerInfo: nonPII
+    dataOrigin: machineGenerated
+    monetaryInfo: nonFinancialData
 inputPorts:
-  - alias: s3_maf_pay_tx
-    description: Maf pay transation test data S3 bucket
+  - alias: car_input_port
+    description: string
     tags: []
     extra: {}
     syncType: pull
-    type: s3
-    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
-    entityId:
-      alias: maf_pay_tx
-      createEntity: true
-      type: s3-bucket
-      entityPath: "s3a://dp-input-bucket/mpay-tx"
-      entityFilterPatternMatch: "*.csv"
-      incrematalFetchNamePattern: "MAFPay_Transactions_#tansationDate#_*"
-      incremetal: true
-      sourceSchemaUrn: urn:dv:schema:9d4716d4
-      projectSchemaUrn: urn:dv:schema:9d4716d6
-      fileFormat: csv
-stateManagement:
-  alias: maf_pay_tx
-  refreshInterval: 45 19 1-10 1-5 1-3
+    type: s3-parquet
+    connectionUrn: urn:dv:connection:e6256cc3-386f-4a45-8c6e-5c32ea4287ca
+    dataSet:
+      path: "s3a://dp-input-bucket/user_car_prices_barcelona_2022/"
+      filter: brand = 'BMW'
+      projection:
+        - brand
+        - model
+        - engine
+        - year
+        - location
+productState:
+  updateType: 'scheduled'
+  updateSchedule: "*/10 * * * *"
   updateStrategy: append
-  productStoreState:
-    logicalSchemaUrn: urn:dv:schema:e6161030-4c7f-4e8f-8508-f01e6547b00e
-    retentionVersions: "10"
+  logicalSchema:
+    properties:
+      brand:
+        type: string
+      model:
+        type: string
+      engine:
+        type: string
+      year:
+        type: string
+      location:
+        type: string
 transformation:
-  sql: select legal_entity, store_group_name from maf_pay_tx
+    - alias: "car_price_step_1"
+      description: "step_1"
+      type: sql
+      sequenceNo: 1
+      stepName: one
+      query: "SELECT * FROM car_input_port"
+      references:
+        - alias: 'car_input_port'
+          sqlReference: 'car_input_port'
+    - alias: "car_price_step_2"
+      description: "step_2"
+      query: "SELECT * FROM car_price_step_1"
+      type: sql
+      sequenceNo: 1
+      stepName: one
+      references:
+        - alias: 'car_price_step_1'
+          sqlReference: 'car_price_step_1'
+outputPort:
+  subscriptionChannels:
+    - channelType: rest-api
+      queryType: sql
+controlPort:
+  dataQualityRules:
+    RecordCountCheck:
+      inputPort:
+        - referenceAlias: car_input_port
+          expression: ">="
+          number: 100
+      productState:
+        referenceAlias: car_input_port_001
+        expression: ==
+        number: 100
