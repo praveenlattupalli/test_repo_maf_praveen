@@ -1,38 +1,83 @@
 ---
-version: 0.0.1
+version: 0.1.0
+alias: SCD2_testing_manifest_changes_Test_13_June_Test4
 discoveryPort:
-  name: Verify Update time functionality_15
-  description: Verify the updte time functionality
-  category: customer
-  image: http://google.com
-  autofillUserinfo: true
-  tags: []
-  extra: {}
+  name: SCD2 changes implementation Verification csv 13 June Test 5
+  shortDescription: Weather Forecast of the next 7 days for ahmedabad city
+  longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
+  tags:
+    - Madrid
+    - House Rental
+  domain: ['Finance']
+  function: ['Forecast']
+  regulatoryFields:
+    dataPrivacy: public
+    customerInfo: nonPII
+    dataOrigin: machineGenerated
+    monetaryInfo: nonFinancialData
 inputPorts:
-  - alias: s3_maf_pay_tx
-    description: Maf pay transation test data S3 bucket
+  - alias: Test0001_input_port
+    description: scdcheck
+    type: s3-csv
     tags: []
-    extra: {}
     syncType: pull
-    type: s3
-    sourceUrn: urn:dv:datasource:1e401b2b-cdb7-4a82-98cd-5784f4568c9b
-    entityId:
-      alias: maf_pay_tx
-      createEntity: true
-      type: s3-bucket
-      entityPath: "s3a://dp-input-bucket/mpay-tx"
-      entityFilterPatternMatch: "*.csv"
-      incrematalFetchNamePattern: "MAFPay_Transactions_#tansationDate#_*"
-      incremetal: true
-      sourceSchemaUrn: urn:dv:schema:9d4716d4
-      projectSchemaUrn: urn:dv:schema:9d4716d6
-      fileFormat: csv
-stateManagement:
-  alias: maf_pay_tx
-  refreshInterval: 45 19 1-10 1-5 1-3
-  updateStrategy: append
-  productStoreState:
-    logicalSchemaUrn: urn:dv:schema:e6161030-4c7f-4e8f-8508-f01e6547b00e
-    retentionVersions: "10"
+    connectionUrn: urn:dv:connection:e6256cc3-386f-4a45-8c6e-5c32ea4287ca
+    dataSet:
+      path: s3://dataverse-byte/sample-data/inputData/demo/demo_update2.csv
+      advanceOptions:
+        delimiter: ','
+        header: true
+        inferSchema: true
+        dateFormat: 'yyyy-dd-MM'
+        multiline: true
+      filter: ""
+      projection:
+        - id
+        - name
+        - marks
+        - modified
+productState:
+  updateType: 'scheduled'
+  updateSchedule: "*/02 * * * *"
+  updateStrategy: scd2
+  logicalSchema:
+    properties:
+      id:
+        type: number
+      name:
+        type: String
+      marks:
+        type: number
+      modified:
+        type: datetime
+  updateStrategyOptions:
+    uniqueKeyColumns:
+        - id
+    changeTrackingColumns:
+        - marks
+    timeTrackingColumn: modified
 transformation:
-  sql: select legal_entity, store_group_name from maf_pay_tx
+  - alias: Test0001_input_port_trans
+    description: step_1
+    type: sql
+    sequenceNo: 1
+    stepName: one
+    query: SELECT * FROM Test0001_input_port
+    references:
+      - alias: Test0001_input_port
+        sqlReference: Test0001_input_port
+outputPort:
+  subscriptionChannels:
+    - channelType: rest-api
+      queryType: sql
+controlPort:
+  dataQualityRules:
+    RecordCountCheck:
+      inputPort:
+        - referenceAlias: Test0001_input_port
+          expression: ">="
+          number: 100
+      productState:
+        referenceAlias: Test0001_input_port
+        expression: ==
+        number: 100
