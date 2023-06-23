@@ -38,7 +38,7 @@ inputPorts:
         - modified
 productState:
   updateType: 'scheduled'
-  updateSchedule: "*/10 * * * *"
+  updateSchedule: "*/5 * * * *"
   updateStrategy: scd2
   logicalSchema:
     properties:
