@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: SCD2_testing_manifest_changes_Test_23_June_Test_11_38
+alias: SCD2_testing_manifest_changes_Test_23_June_Test3_11_56
 discoveryPort:
-  name: SCD2 changes implementation Verification 23 June Test 11 38
+  name: SCD2 changes implementation Verification 21 June Test 3 for CSV 11 56
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
@@ -23,7 +23,7 @@ inputPorts:
     syncType: pull
     connectionUrn: urn:dv:connection:e6256cc3-386f-4a45-8c6e-5c32ea4287ca
     dataSet:
-      path: s3://dataverse-byte/sample-data/inputData/demo/demo_update_scd2 .csv
+      path: s3://dataverse-byte/sample-data/inputData/demo/demo_update1 .csv
       advanceOptions:
         delimiter: ','
         header: true
@@ -38,7 +38,7 @@ inputPorts:
         - modified
 productState:
   updateType: 'scheduled'
-  updateSchedule: "*/5 * * * *"
+  updateSchedule: "*/10 * * * *"
   updateStrategy: scd2
   logicalSchema:
     properties:
