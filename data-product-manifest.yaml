@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: SCD2_testing_manifest_changes_Test_23_June_Test_5_14
+alias: SCD2_testing_manifest_changes_Test_23_June_Test_8
 discoveryPort:
-  name: SCD2 changes implementation Verification 23 June Test 5 14
+  name: SCD2 changes implementation Verification 23 June Test 5 8
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
@@ -50,7 +50,6 @@ productState:
         - id
     changeTrackingColumns:
         - marks
-    timeTrackingColumn: modified
 transformation:
   - alias: Test0001_input_port_trans
     description: step_1
