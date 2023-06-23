@@ -31,11 +31,6 @@ inputPorts:
         dateFormat: 'yyyy-MM-dd'
         multiline: true
       filter: ""
-      projection:
-        - id
-        - name
-        - marks
-        - modified
 productState:
   updateType: 'scheduled'
   updateSchedule: "*/5 * * * *"
