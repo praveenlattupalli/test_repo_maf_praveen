@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: Test0001_input_port12345_July11th_123
+alias: Test0001_input_port12345_July11th_1234
 discoveryPort:
-  name: Test all dq checks warnings 1201_July11th_123
+  name: Test all dq checks warnings 1201_July11th_1234
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
