@@ -86,7 +86,7 @@ outputPort:
       syncType: push
       connectionUrn: urn:dv:connection:975e48c9-f7bf-4ee0-b5a5-a53f3e2e7b45
       dataSet:
-        tableName: details
+        tableName: testpostgres
         path: s3://dataverse-byte/sample-data/inputData/sample2.parquet
     - type: vertica-table
       syncType: push
