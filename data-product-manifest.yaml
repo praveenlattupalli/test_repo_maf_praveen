@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: Test0001_input_port12345_July_11th_12
+alias: Test0001_input_port12345_July11th_121
 discoveryPort:
-  name: Test all dq checks warnings 1201_July_11th_12
+  name: Test all dq checks warnings 1201_July11th_121
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
@@ -34,7 +34,7 @@ inputPorts:
     connectionUrn: urn:dv:connection:975e48c9-f7bf-4ee0-b5a5-a53f3e2e7b45
     dataSet:
       path: s3://dp-input-bucket/mpay-tx/mpay-tx.csv
-      tableName: testpostgres
+      tableName: details
       advanceOptions:
         delimiter: ','
         header: true
@@ -45,7 +45,7 @@ inputPorts:
     connectionUrn: urn:dv:connection:0b18c8d2-a6d1-4212-a3d4-33cfd776d905
     dataSet:
       path: s3://dp-input-bucket/mpay-tx/mpay-tx.csv
-      tableName: testpostgres
+      tableName: details
       advanceOptions:
         delimiter: ','
         header: true
