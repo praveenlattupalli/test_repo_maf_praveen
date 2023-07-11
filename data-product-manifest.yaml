@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: Test0001_input_port12345_July11th_121
+alias: Test0001_input_port12345_July11th_123
 discoveryPort:
-  name: Test all dq checks warnings 1201_July11th_121
+  name: Test all dq checks warnings 1201_July11th_123
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
@@ -86,7 +86,7 @@ outputPort:
       syncType: push
       connectionUrn: urn:dv:connection:975e48c9-f7bf-4ee0-b5a5-a53f3e2e7b45
       dataSet:
-        tableName: testpostgres
+        tableName: details
         path: s3://dataverse-byte/sample-data/inputData/sample2.parquet
     - type: vertica-table
       syncType: push
