@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: Test0001_input_portDemo_August_11234_Ondemand_3_36
+alias: Test0001_input_portDemo_August_1_3_39
 discoveryPort:
-  name: Demo S3 and Vertica_August_14567_Ondemand_3_37
+  name: Demo S3 and Vertica_August_1_3_39
   shortDescription: Weather Forecast S3
   longDescription: Weather Forecast Details
   tags:
