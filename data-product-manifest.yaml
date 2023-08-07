@@ -1,8 +1,8 @@
 ---
 version: 0.1.0
-alias: Test0001_input_port123452123
+alias: Test0001_input_port123452
 discoveryPort:
-  name: Test all dq checks warnings 120123456
+  name: Test all dq checks warnings 12012
   shortDescription: Weather Forecast of the next 7 days for ahmedabad city
   longDescription: Weather Forecast of the next 7 days for ahmedabad city along with the accuracy of the previous forecast
   tags:
@@ -23,7 +23,26 @@ inputPorts:
     syncType: pull
     connectionUrn: urn:dv:connection:308c470d-0c06-4fe4-beaf-eec65f92851a
     dataSet:
-      path: "s3://##my_bucket_name##/sample-data/inputData/incremental/##my_dynamic_year##/*.##my_extension##" 
+      path: "s3://input-bucket/myPay_transactions/##year##/##month##/##day##/*.csv"
+      variables:
+         - key: year
+           value: date-YYYY
+         - key: month
+           value: date-MM
+         - key: day
+           value: date-DD
+      incrementalLoad: true
+      incrementalStrategy:
+          frequency:
+            - keyReference : year
+              mode: absolute
+              interval : 0
+            - keyReference : month
+              mode: absolute
+              interval : 0
+            - keyReference : day
+              mode: range
+              interval : -5                 
       advanceOptions:
         delimiter: ','
         header: true
@@ -202,4 +221,4 @@ controlPort:
         checks:
           - column: payment_option
             number: 2
-            expression: "<="
+            expression: "<="  
